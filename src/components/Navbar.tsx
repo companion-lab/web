@@ -1,25 +1,16 @@
 "use client";
 
-import { ChevronDown, Code, Menu, X } from "lucide-react";
+import { Terminal, Menu, X, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { AsciiLogoNav } from "@/components/AsciiLogo";
 
 const NAV_LINKS = [
   { label: "Product", href: "#product" },
-  { label: "Features", href: "#features" },
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Privacy", href: "#privacy" },
+  { label: "Architecture", href: "#features" },
+  { label: "Docs", href: "#docs" },
+  { label: "GitHub", href: "https://github.com/companion-lab/companion" },
 ];
-
-import { AsciiLogoNav } from "@/components/AsciiLogo";
-
-function CompanionLogo() {
-  return (
-    <a href="#" className="flex items-center gap-2.5 group cursor-pointer">
-      <AsciiLogoNav />
-    </a>
-  );
-}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -35,48 +26,44 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-mono text-sm",
         scrolled
-          ? "bg-bg/80 backdrop-blur-lg border-b border-border"
+          ? "bg-[#0F0F0D]/90 backdrop-blur-md border-b border-border"
           : "bg-transparent border-b border-transparent"
       )}
     >
-      <nav className="max-w-7xl mx-auto px-6 h-[72px] flex items-center justify-between">
-        <div className="flex items-center gap-8">
-          <CompanionLogo />
+      <nav className="max-w-7xl mx-auto px-6 h-[64px] flex items-center justify-between">
+        <div className="flex items-center gap-10">
+          <a href="#" className="flex items-center gap-2 group cursor-pointer hover:opacity-80 transition-opacity">
+            <AsciiLogoNav />
+          </a>
 
-          {/* Desktop nav links */}
-          <ul className="hidden md:flex items-center gap-2">
+          <ul className="hidden md:flex items-center gap-6">
             {NAV_LINKS.map((link) => (
               <li key={link.label}>
                 <a
                   href={link.href}
-                  className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm text-text-secondary hover:text-text-primary hover:bg-surface transition-colors duration-200 cursor-pointer"
+                  className="text-text-secondary hover:text-text-primary transition-colors duration-200 cursor-pointer"
                 >
                   {link.label}
-                  <ChevronDown size={14} />
                 </a>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Desktop CTA */}
-        <div className="hidden md:flex items-center gap-4">
-          <a href="#" className="text-sm text-text-secondary hover:text-text-primary transition-colors">
-            Log in
-          </a>
+        <div className="hidden md:flex items-center gap-6">
           <a
-            href="#book-demo"
-            className="px-4 py-2 rounded-lg text-sm font-medium bg-cta-bg text-cta-text hover:bg-cta-bg-hover transition-colors duration-200 cursor-pointer"
+            href="#install"
+            className="group flex items-center gap-2 px-4 py-1.5 rounded-sm bg-accent/10 border border-accent/20 text-accent hover:bg-accent hover:text-[#0F0F0D] transition-all duration-200 cursor-pointer font-bold"
           >
-            Book a Demo
+            <Terminal size={14} />
+            Install
           </a>
         </div>
 
-        {/* Mobile menu toggle */}
         <button
-          className="md:hidden p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors duration-200 cursor-pointer"
+          className="md:hidden p-2 text-text-secondary hover:text-text-primary transition-colors duration-200 cursor-pointer"
           onClick={() => setMenuOpen((v) => !v)}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
         >
@@ -84,33 +71,26 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Mobile dropdown */}
       {menuOpen && (
-        <div className="md:hidden border-t border-border bg-bg px-6 py-4 flex flex-col gap-2">
+        <div className="md:hidden border-t border-border bg-[#0F0F0D] px-6 py-4 flex flex-col gap-4 font-mono">
           {NAV_LINKS.map((link) => (
             <a
               key={link.label}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="flex items-center justify-between px-3 py-2.5 rounded-lg text-base text-text-secondary hover:text-text-primary hover:bg-surface transition-colors duration-200 cursor-pointer"
+              className="text-text-secondary hover:text-text-primary transition-colors duration-200 cursor-pointer"
             >
               {link.label}
-              <ChevronDown size={16} />
             </a>
           ))}
+          <div className="h-[1px] w-full bg-border my-2" />
           <a
-            href="#book-demo"
+            href="#install"
             onClick={() => setMenuOpen(false)}
-            className="mt-4 px-5 py-3 rounded-lg text-base font-medium bg-cta-bg text-cta-text text-center hover:bg-cta-bg-hover transition-colors duration-200 cursor-pointer"
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-sm bg-accent text-[#0F0F0D] font-bold text-center hover:opacity-90 transition-opacity cursor-pointer"
           >
-            Book a Demo
-          </a>
-           <a
-            href="#"
-            onClick={() => setMenuOpen(false)}
-            className="mt-2 py-3 rounded-lg text-base text-text-secondary text-center hover:text-text-primary transition-colors duration-200 cursor-pointer"
-          >
-            Log in
+            <Terminal size={14} />
+            Install CLI
           </a>
         </div>
       )}

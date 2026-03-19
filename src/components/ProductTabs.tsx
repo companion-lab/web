@@ -1,163 +1,194 @@
 "use client";
 
 import { useState } from "react";
-import { MessageSquare, Code2, Mic } from "lucide-react";
+import { Terminal, Database, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const TABS = [
   {
-    id: "chat",
-    label: "Chat Mode",
-    icon: MessageSquare,
-    title: "For the entire team",
+    id: "opencode",
+    label: "Dev Mode",
+    icon: Terminal,
+    title: "Interact with your repo in the terminal.",
     description:
-      "A familiar chat interface where anyone can ask questions, retrieve decisions, and get instant answers about what's happening across the organization.",
-    demo: <ChatModeDemo />,
+      "OpenCode uses context from previous commits, READMEs, and your colleagues' pull requests to write intelligent, robust code.",
+    demo: <TerminalDemo />,
   },
   {
-    id: "code",
-    label: "Code Mode",
-    icon: Code2,
-    title: "For developers",
+    id: "vexa",
+    label: "Voice Bots",
+    icon: Bot,
+    title: "Turn meetings into engineering specs.",
     description:
-      "A CLI and IDE-integrated tool that brings organizational context directly into the development workflow. Understand the 'why' behind the code.",
-    demo: <CodeModeDemo />,
+      "Vexa dials into Google Meet or Zoom. It captures architectural decisions and translates them into Markdown documentation for your agent.",
+    demo: <VexaDemo />,
   },
   {
-    id: "meeting",
-    label: "Meeting Intelligence",
-    icon: Mic,
-    title: "For every meeting",
+    id: "mcp",
+    label: "MCP Integration",
+    icon: Database,
+    title: "Connect your enterprise tools safely.",
     description:
-      "Companion automatically joins, transcribes, and analyzes your meetings. It extracts decisions, action items, and key topics in real-time.",
-    demo: <MeetingDemo />,
+      "Use Model Context Protocol to hook your internal APIs, JIRA instances, and observability platforms straight into your coding agent.",
+    demo: <MCPDemo />,
   },
 ];
 
-function ChatModeDemo() {
+function TerminalDemo() {
   return (
-    <div className="p-6 rounded-lg border border-border bg-surface/80 space-y-4">
-      <div className="flex gap-3 justify-end">
-        <div className="px-4 py-2 rounded-lg bg-border text-text-secondary text-sm max-w-[80%]">
-          Summarize the sonar sensor discussion.
+    <div className="rounded-lg border border-border bg-[#0a0a09] font-mono overflow-hidden shadow-2xl">
+      <div className="flex px-4 py-2 border-b border-border bg-[#141413] items-center gap-2">
+        <span className="w-2.5 h-2.5 rounded-full bg-border" />
+        <span className="w-2.5 h-2.5 rounded-full bg-border" />
+        <span className="w-2.5 h-2.5 rounded-full bg-border" />
+        <span className="text-xs text-text-tertiary ml-2">bash</span>
+      </div>
+      <div className="p-5 text-sm leading-relaxed text-text-primary/90 min-h-[220px]">
+        <div className="mb-4">
+          <span className="text-accent font-bold mr-3">❯</span>
+          <span className="text-text-secondary font-medium">companion ask</span> "Update the Auth Service"
+        </div>
+        <div className="pl-4 border-l-2 border-[#2a2a28] mb-4 space-y-2 text-text-secondary">
+          <div className="flex gap-2 items-center text-accent/80 text-xs uppercase tracking-wider">
+            <Bot size={14} /> Planning
+          </div>
+          <div>Analyzing src/auth.ts and src/routes.ts...</div>
+          <div>Found recent meeting: "Auth Service Refactor" (2 days ago)</div>
+          <div>Requirement: Use JSON Web Tokens (JWT) instead of sessions.</div>
+        </div>
+        <div className="text-[#8BBF7A]">
+          ✔ Wrote 140 lines. Updated tests. Ready to commit.
+        </div>
+        <div className="mt-4">
+          <span className="text-accent font-bold mr-3">❯</span>
+          <span className="animate-pulse bg-accent w-2 h-4 inline-block align-middle" />
         </div>
       </div>
-      <div className="flex gap-3">
-        <div className="w-7 h-7 rounded-full bg-accent/20 border border-accent/30 flex-shrink-0" />
-        <div className="px-4 py-2 rounded-lg bg-border text-text-secondary text-sm max-w-[85%] leading-relaxed">
-          The team decided to switch to the Velodyne unit for a 40% cost reduction. 
-          <span className="text-text-primary block mt-1">✓ Action: Sarah to finalize procurement.</span>
+    </div>
+  );
+}
+
+function VexaDemo() {
+    return (
+    <div className="rounded-lg border border-border bg-[#0a0a09] font-sans overflow-hidden shadow-2xl">
+      <div className="flex px-4 py-2 border-b border-border bg-[#141413] items-center justify-between">
+        <div className="flex items-center gap-2 text-xs text-text-tertiary font-mono">
+          <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+          Vexa Recording
+        </div>
+        <span className="text-xs text-text-tertiary">engineering-weekly.txt</span>
+      </div>
+      <div className="p-6 text-sm leading-relaxed text-text-secondary bg-[#111110] min-h-[220px]">
+        <div className="space-y-4">
+          <div className="flex gap-4">
+            <div className="font-semibold text-text-primary w-12 pt-0.5">Alex</div>
+            <div className="flex-1">We need to migrate to PostgreSQL by next sprint. The current SQLite setup is locking during heavy writes.</div>
+          </div>
+          <div className="flex gap-4">
+            <div className="font-semibold text-text-primary w-12 pt-0.5">Sarah</div>
+            <div className="flex-1">Agreed. Let's use Prisma as our ORM. Companion, create a ticket for this.</div>
+          </div>
+          
+          <div className="mt-6 pt-4 border-t border-border font-mono text-xs">
+            <div className="text-accent mb-2 uppercase tracking-widest font-bold text-[10px]">Companion Extract:</div>
+            <div className="bg-[#1a1a18] p-3 rounded text-[#8BBF7A] border border-border">
+              Action Item: Migrate from SQLite to PostgreSQL using Prisma ORM.
+              [Jira-402 Created]
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-function CodeModeDemo() {
+function MCPDemo() {
     return (
-    <div className="p-6 rounded-lg border border-border bg-surface/80 font-mono">
-      <div className="text-sm text-text-secondary mb-3">
-        <span className="text-accent">$</span> companion ask
+    <div className="rounded-lg border border-border bg-[#0a0a09] font-mono overflow-hidden shadow-2xl">
+       <div className="flex px-4 py-2 border-b border-border bg-[#141413] items-center gap-2">
+        <span className="w-2.5 h-2.5 rounded-full bg-border" />
+        <span className="w-2.5 h-2.5 rounded-full bg-border" />
+        <span className="w-2.5 h-2.5 rounded-full bg-border" />
+        <span className="text-xs text-text-tertiary ml-2">mcp-config.json</span>
       </div>
-      <div className="text-sm text-text-primary mb-5">
-        &gt; Why did we switch to ROS2?
-      </div>
-      <div className="text-sm text-text-primary/50 leading-relaxed border-l-2 border-border pl-4">
-        <p>Based on <span className="text-text-primary/80">robotics-planning-Jan-22.md</span>:</p>
-        <p className="mt-2">ROS1 End-of-Life was the primary driver. Improved lifecycle management and Python 3 support were also cited.</p>
+      <div className="p-5 text-sm text-[#A3A198] min-h-[220px]">
+        <pre className="overflow-x-auto leading-loose">
+          <span className="text-text-tertiary">{"{"}</span>
+          <br/>
+          <span className="text-text-primary ml-4">"mcpServers":</span> <span className="text-text-tertiary">{"{"}</span>
+          <br/>
+          <span className="text-accent ml-8">"jira":</span> <span className="text-text-tertiary">{"{"}</span>
+          <br/>
+          <span className="text-text-primary ml-12">"command":</span> <span className="text-[#8BBF7A]">"npx"</span>,
+          <br/>
+          <span className="text-text-primary ml-12">"args":</span> <span className="text-text-tertiary">["-y", "@modelcontextprotocol/server-jira"]</span>,
+          <br/>
+          <span className="text-text-primary ml-12">"env":</span> <span className="text-text-tertiary">{"{"}</span>
+          <br/>
+          <span className="text-text-primary ml-16">"JIRA_API_TOKEN":</span> <span className="text-[#8BBF7A]">"sk-..."</span>
+          <br/>
+          <span className="text-text-tertiary ml-12">{"}"}</span>
+          <br/>
+          <span className="text-text-tertiary ml-8">{"}"}</span>
+          <br/>
+          <span className="text-text-tertiary ml-4">{"}"}</span>
+          <br/>
+          <span className="text-text-tertiary">{"}"}</span>
+        </pre>
       </div>
     </div>
   );
 }
-
-function MeetingDemo() {
-    return (
-    <div className="p-6 rounded-lg border border-border bg-surface/80 space-y-3">
-      <div className="flex items-center gap-1.5">
-        <span className="w-2 h-2 rounded-full bg-red-500" />
-        <span className="text-xs text-red-400/80 font-medium uppercase tracking-wide">
-          Live: Engineering Sync
-        </span>
-      </div>
-       <div className="pt-2 space-y-2">
-        {[
-          { speaker: "Alex", text: "We need to decide on the migration timeline." },
-          { speaker: "Sarah", text: "I'd suggest a phased rollout." },
-        ].map((line) => (
-          <div key={line.speaker} className="flex gap-2 items-baseline">
-            <span className="text-xs font-semibold text-text-primary/60 w-14 flex-shrink-0">
-              {line.speaker}:
-            </span>
-            <span className="text-sm text-text-primary/80">{line.text}</span>
-          </div>
-        ))}
-      </div>
-      <div className="pt-3 border-t border-border">
-        <p className="text-xs text-text-primary/40 uppercase tracking-wide mb-2 font-medium">Companion detected</p>
-        <div className="flex flex-wrap gap-2">
-            <span className="px-2.5 py-1 rounded-md bg-accent/15 border border-accent/25 text-accent text-xs font-medium">
-              Decision: Phased rollout
-            </span>
-          </div>
-      </div>
-    </div>
-  );
-}
-
 
 export default function ProductTabs() {
-  const [active, setActive] = useState("chat");
+  const [active, setActive] = useState("opencode");
   const tab = TABS.find((t) => t.id === active)!;
 
   return (
-    <section id="product" className="py-24 px-4">
+    <section id="product" className="py-24 px-4 bg-[#0F0F0D]">
       <div className="max-w-7xl mx-auto">
-        {/* Section header */}
-        <div className="text-center mb-14 max-w-2xl mx-auto">
-          <h2 className="font-[var(--font-dm-serif)] text-[clamp(2.5rem,6vw,3.5rem)] text-text-primary tracking-tight leading-tight">
-            One platform, every role
-          </h2>
-          <p className="mt-4 text-text-secondary text-lg leading-relaxed">
-            From daily standups to architectural reviews — Companion has a mode designed for every workflow.
-          </p>
-        </div>
+        
+        <div className="flex flex-col lg:flex-row gap-16 items-center">
+          <div className="lg:w-1/2 flex flex-col items-start text-left">
+            <h2 className="font-[var(--font-serif)] text-[clamp(2rem,5vw,3rem)] text-text-primary tracking-tight leading-[1.1] mb-6">
+              Connect your codebase to reality.
+            </h2>
+            <p className="text-text-secondary text-lg leading-relaxed mb-10 max-w-lg">
+              Companion isn't just an LLM wrapper. It's a suite of targeted agents that unify your tools, repositories, and conversations.
+            </p>
 
-        {/* Tab selectors */}
-        <div className="flex justify-center mb-12">
-          <div className="inline-flex gap-2 p-1 rounded-lg bg-surface border border-border">
-            {TABS.map((t) => {
-              const Icon = t.icon;
-              return (
-                <button
-                  key={t.id}
-                  onClick={() => setActive(t.id)}
-                  className={cn(
-                    "flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-colors duration-200 cursor-pointer",
-                    active === t.id
-                      ? "bg-cta-bg/10 text-text-primary"
-                      : "text-text-secondary hover:text-text-primary"
-                  )}
-                >
-                  <Icon size={16} />
-                  {t.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Tab content */}
-        <div className="max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-            <div className="relative">
-              <h3 className="font-bold text-text-primary mb-2 text-lg">
-                {tab.title}
-              </h3>
-              <p className="text-text-secondary leading-relaxed">
-                {tab.description}
-              </p>
+            <div className="flex flex-col gap-3 w-full max-w-md">
+              {TABS.map((t) => {
+                const Icon = t.icon;
+                const isActive = active === t.id;
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => setActive(t.id)}
+                    className={cn(
+                      "flex flex-col items-start gap-1 p-4 rounded-md border text-left transition-all duration-300",
+                      isActive
+                        ? "bg-[#1A1A17] border-border text-text-primary"
+                        : "border-transparent text-text-secondary hover:text-text-primary hover:bg-[#141413]"
+                    )}
+                  >
+                    <div className="flex items-center gap-2 font-mono text-sm uppercase tracking-wider mb-1 font-bold">
+                      <Icon size={16} className={isActive ? "text-accent" : ""} />
+                      {t.label}
+                    </div>
+                    {isActive && (
+                      <p className="text-sm text-text-secondary mt-1 animate-slide-up">
+                        {t.description}
+                      </p>
+                    )}
+                  </button>
+                );
+              })}
             </div>
-            <div>{tab.demo}</div>
+          </div>
+
+          <div className="lg:w-1/2 w-full max-w-xl">
+             {tab.demo}
           </div>
         </div>
       </div>

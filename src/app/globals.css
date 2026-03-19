@@ -6,26 +6,26 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
-  /* ── Colors (Anthropic / Claude Code reference) ─── */
-  --color-bg: #131314;
-  --color-surface: #1B1B1C; /* Slightly lighter than bg */
-  --color-border: #3D3D3A;
-  --color-border-hover: #5A5A57;
+  /* ── Colors (Claude Code reference) ─── */
+  --color-bg: #0F0F0D;
+  --color-surface: #171715;
+  --color-border: #32312C;
+  --color-border-hover: #4B4943;
 
-  --color-text-primary: #E8E6DC;
-  --color-text-secondary: #87867F;
-  --color-text-tertiary: #605F5A;
+  --color-text-primary: #F3F1E9;
+  --color-text-secondary: #A3A198;
+  --color-text-tertiary: #68665E;
 
-  --color-cta-text: #131314;
-  --color-cta-bg: #E8E6DC;
-  --color-cta-bg-hover: #F0EEE6;
+  --color-cta-text: #0F0F0D;
+  --color-cta-bg: #F3F1E9;
+  --color-cta-bg-hover: #FFFFFF;
 
-  --color-accent: #C46849;
+  --color-accent: #D97757;
 
   /* ── Radius ─────────────────────────────── */
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
 }
 
 /* ── Base ───────────────────────────────────── */
@@ -69,9 +69,17 @@ body {
   animation: slide-up 0.6s ease-out forwards;
 }
 
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-slide-up {
     animation: none;
   }
 }
-
