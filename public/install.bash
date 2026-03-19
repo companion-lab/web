@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Companion CLI (cc) Installer
+# Companion CLI (c2) Installer
 # https://companion.ky0.dev/
 
 set -e
@@ -91,40 +91,40 @@ if command -v cargo &> /dev/null; then
     fatal "Git is not installed. Please install git or download the binary manually."
   fi
   
-  git clone --depth 1 -q https://github.com/companion-lab/cc "$TMP_DIR/cc" || true
+  git clone --depth 1 -q https://github.com/companion-lab/cc "$TMP_DIR/c2" 2>/dev/null || true
   
   # if github clone fails (private repo), try to find local workspace for dev install
-  if [ ! -d "$TMP_DIR/cc/Cargo.toml" ]; then
+  if [ ! -f "$TMP_DIR/c2/Cargo.toml" ]; then
     info "GitHub clone failed (repo might be private). Checking for local workspace..."
     # Local fallback for development 
-    if [ -f "$HOME/ws/PPI/cc/Cargo.toml" ]; then
-       info "Found local workspace at $HOME/ws/PPI/cc. Building from there..."
-       cd "$HOME/ws/PPI/cc"
+    if [ -f "$HOME/ws/PPI/c2/Cargo.toml" ]; then
+       info "Found local workspace at $HOME/ws/PPI/c2. Building from there..."
+       cd "$HOME/ws/PPI/c2"
        cargo build --release -q
-       cp target/release/cc "$INSTALL_DIR/cc"
-       success "Successfully installed cc to $INSTALL_DIR/cc"
+       cp target/release/c2 "$INSTALL_DIR/c2"
+       success "Successfully installed c2 to $INSTALL_DIR/c2"
     else
        fatal "Could not download binary and could not build from source. Installation failed."
     fi
   else
-    cd "$TMP_DIR/cc"
-    info "Compiling cc binary (this may take a few minutes)..."
+    cd "$TMP_DIR/c2"
+    info "Compiling c2 binary (this may take a few minutes)..."
     cargo build --release
-    cp target/release/cc "$INSTALL_DIR/cc"
-    success "Successfully installed cc to $INSTALL_DIR/cc"
+    cp target/release/c2 "$INSTALL_DIR/c2"
+    success "Successfully installed c2 to $INSTALL_DIR/c2"
     rm -rf "$TMP_DIR"
   fi
 else
   # Placeholder for future curl download
-  # BINARY_URL="https://github.com/$GITHUB_REPO/releases/download/$VERSION/cc-$TARGET.tar.gz"
+  # BINARY_URL="https://github.com/$GITHUB_REPO/releases/download/$VERSION/c2-$TARGET.tar.gz"
   # info "Downloading $BINARY_URL..."
-  # curl -fsSL "$BINARY_URL" | tar xz -C "$INSTALL_DIR" cc
+  # curl -fsSL "$BINARY_URL" | tar xz -C "$INSTALL_DIR" c2
   
-  fatal "Rust (cargo) is required to build cc from source currently. Please install rustup or wait for binary releases."
+  fatal "Rust (cargo) is required to build c2 from source currently. Please install rustup or wait for binary releases."
 fi
 
 # --- Completion ---
 echo ""
-echo -e "${ORANGE}Companion AI (cc) is ready.${RESET}"
-echo -e "Run ${BOLD}cc --help${RESET} to get started."
+echo -e "${ORANGE}Companion AI (c2) is ready.${RESET}"
+echo -e "Run ${BOLD}c2 --help${RESET} to get started."
 echo ""
